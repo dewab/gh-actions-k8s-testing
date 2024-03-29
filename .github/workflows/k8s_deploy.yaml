@@ -36,11 +36,11 @@ jobs:
       - name: Setup Kube Tools
         uses: yokawasa/action-setup-kube-tools@v0.11.0
         with:
-          kubectl: '1.25'
-          kustomize: '5.0.0'
-          helm: '3.11.1'
+          kubectl: '1.25.12'
+          # kustomize: '5.0.0'
+          # helm: '3.11.1'
         
       - run: |
           kubectl version --client
-          kustomize version
-          helm version
+          # kustomize version
+          # helm version
