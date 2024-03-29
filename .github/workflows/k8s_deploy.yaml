@@ -34,7 +34,7 @@ jobs:
       #     enableCli: true
  
       - name: Setup Kube Tools
-        uses: yokawasa/actions-setup-kube-tools@v0.9.3
+        uses: yokawasa/action-setup-kube-tools@v0.11.0
         with:
           kubectl: '1.25'
           kustomize: '5.0.0'
