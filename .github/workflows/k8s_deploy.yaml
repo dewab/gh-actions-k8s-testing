@@ -48,6 +48,10 @@ jobs:
           /usr/bin/tanzu plugin install --group vmware-tmc/default
           /usr/bin/tanzu plugin install --group vmware-vsphere/default
 
+      - name: Tanzu CLI login
+        run: |
+          /usr/bin/tanzu context create --endpoint ${{ env.TANZU_TMC_ENDPOINT }} --type tmc tmc
+
       - name: Set context
         uses: azure/k8s-set-context@v1
         with:
