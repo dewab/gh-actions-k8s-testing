@@ -36,8 +36,8 @@ jobs:
       #   with:
       #     version: '1.25.12'
 
-      - name: Install K8s Tools
-        uses: dewab/action-setup-kube-tools@v0.11.0
+      - name: Setup Kubernetes Tools inc. Tanzu-CLI
+        uses: dewab/action-setup-kube-tools@v0.11.1
         with:
           kubectl: ${{ env.KUBECTL_VERSION }}
           tanzu: ${{ env.TANZU_CLI_VERSION }}
