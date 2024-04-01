@@ -78,8 +78,6 @@ spec:
                 name: hello-node
                 port: 
                   number: 8080
-                #   port: 8080
-                #   protocol: TCP
       host: hello-node.k3s.lab.local
   tls:
     - hosts:
