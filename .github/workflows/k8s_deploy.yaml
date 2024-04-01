@@ -14,7 +14,7 @@ permissions:
   actions: read
 
 env:
-  TANZU_CLI_VERSION: '1.2.0'
+  TANZU_CLI_VERSION: 'v1.2.0'
   TANZU_CLI_URL: 'https://github.com/vmware-tanzu/tanzu-cli/releases/download/v1.2.0/tanzu-cli-linux-amd64.tar.gz'
   TANZU_CLI_CEIP_OPT_IN_PROMPT_ANSWER: 'no'
   TANZU_TMC_ENDPOINT: ${{ secrets.TANZU_TMC_ENDPOINT }}
