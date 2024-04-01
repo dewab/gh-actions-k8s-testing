@@ -34,10 +34,10 @@ jobs:
 
       - name: Install Tanzu CLI
         run: |
-          wget ${{ env.TANZU_CLI_URL }}
-          tar -xvzf- --strip-components 1 v1.2.0/tanzu-cli-linux_amd64
-          sudo install -m 755 tanzu-cli-linux_amd64 /usr/bin/tanzu
-          tanzu config eula accept
+          /usr/bin/wget ${{ env.TANZU_CLI_URL }}
+          /usr/bin/tar -xvzf- --strip-components 1 v1.2.0/tanzu-cli-linux_amd64
+          /usr/bin/sudo /usr/bin/install -m 755 tanzu-cli-linux_amd64 /usr/bin/tanzu
+          /usr/bin/tanzu config eula accept
 
       - name: Set context
         uses: azure/k8s-set-context@v1
