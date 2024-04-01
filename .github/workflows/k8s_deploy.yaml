@@ -13,6 +13,10 @@ permissions:
   contents: read
   actions: read
 
+env:
+  TANZU_CLI_URL: 'https://github.com/vmware-tanzu/tanzu-cli/releases/download/v1.2.0/tanzu-cli-linux-amd64.tar.gz'
+  TANZU_CLI_CEIP_OPT_IN_PROMPT_ANSWER: 'no'
+
 jobs:
   deploy:
     # runs-on: ubuntu-latest
@@ -27,6 +31,13 @@ jobs:
         with:
           # version: '1.25.12'
           version: 'latest'
+
+      - name: Install Tanzu CLI
+        run: |
+          wget ${{ env.TANZU_CLI_URL }}
+          tar -xvzf- --strip-components 1 v1.2.0/tanzu-cli-linux_amd64
+          sudo install -m 755 tanzu-cli-linux_amd64 /usr/bin/tanzu
+          tanzu config eula accept
 
       - name: Set context
         uses: azure/k8s-set-context@v1
