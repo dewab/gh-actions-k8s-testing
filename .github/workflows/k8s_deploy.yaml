@@ -64,6 +64,7 @@ jobs:
       - name: Remove existing Tanzu configuration
         run: |
           /usr/bin/sudo /usr/bin/rm -f ~/.config/tanzu
+        continue-on-error: true
           
       - name: Install Tanzu CLI
         run: |
