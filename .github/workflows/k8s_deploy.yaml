@@ -37,9 +37,10 @@ jobs:
       #     version: '1.25.12'
 
       - name: Install K8s Tools
-        uses: yokawasa/action-setup-kube-tools@v0.11.0
+        uses: dewab/action-setup-kube-tools@v0.11.0
         with:
           kubectl: ${{ env.KUBECTL_VERSION }}
+          tanzu: ${{ env.TANZU_CLI_VERSION }}
           # kustomize: '5.0.0'
           # helm: '3.11.1'
           # kubeconform: '0.5.0'
@@ -61,28 +62,29 @@ jobs:
           tilt version
           skaffold version
           kube-score version
+          tanzu version
          
-      - name: Install Tanzu CLI
-        run: |
-          /usr/bin/wget --no-verbose https://github.com/vmware-tanzu/tanzu-cli/releases/download/${{ env.TANZU_CLI_VERSION }}/tanzu-cli-linux-amd64.tar.gz
-          /usr/bin/tar -xvzf tanzu-cli-linux-amd64.tar.gz --strip-components 1 ${{ env.TANZU_CLI_VERSION }}/tanzu-cli-linux_amd64
-          mv tanzu-cli-linux_amd64 tanzu
+      # - name: Install Tanzu CLI
+      #   run: |
+      #     /usr/bin/wget --no-verbose https://github.com/vmware-tanzu/tanzu-cli/releases/download/${{ env.TANZU_CLI_VERSION }}/tanzu-cli-linux-amd64.tar.gz
+      #     /usr/bin/tar -xvzf tanzu-cli-linux-amd64.tar.gz --strip-components 1 ${{ env.TANZU_CLI_VERSION }}/tanzu-cli-linux_amd64
+      #     mv tanzu-cli-linux_amd64 tanzu
 
       - name: Tanzu CLI setup
         run: |
           echo $PATH
-          /usr/bin/tanzu config eula accept
-          /usr/bin/tanzu init
-          /usr/bin/tanzu plugin install --group vmware-tanzucli/essentials
-          /usr/bin/tanzu plugin install --group vmware-tmc/default
-          /usr/bin/tanzu plugin install --group vmware-vsphere/default
+          tanzu config eula accept
+          tanzu init
+          tanzu plugin install --group vmware-tanzucli/essentials
+          tanzu plugin install --group vmware-tmc/default
+          tanzu plugin install --group vmware-vsphere/default
 
       - name: Remove Tanzu context, if exists 
         continue-on-error: true
-        run: /usr/bin/tanzu context delete tmc --yes
+        run: tanzu context delete tmc --yes
 
       - name: Tanzu CLI login
-        run: /usr/bin/tanzu context create --endpoint ${{ env.TANZU_TMC_ENDPOINT }} --type tmc tmc
+        run: tanzu context create --endpoint ${{ env.TANZU_TMC_ENDPOINT }} --type tmc tmc
 
       - name: Set context
         uses: azure/k8s-set-context@v1
