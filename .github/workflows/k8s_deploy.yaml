@@ -34,7 +34,7 @@ jobs:
 
       - name: Install Tanzu CLI
         run: |
-          /usr/bin/wget ${{ env.TANZU_CLI_URL }}
+          /usr/bin/wget --no-verbose ${{ env.TANZU_CLI_URL }}
           /usr/bin/tar -xvzf tanzu-cli-linux-amd64.tar.gz --strip-components 1 v1.2.0/tanzu-cli-linux_amd64
           /usr/bin/sudo /usr/bin/install -m 755 tanzu-cli-linux_amd64 /usr/bin/tanzu
 
@@ -42,6 +42,9 @@ jobs:
         run: |
           /usr/bin/tanzu config eula accept
           /usr/bin/tanzu init
+          /usr/bin/tanzu plugin install --group vmware-tanzucli/essentials
+          /usr/bin/tanzu plugin install --group vmware-tmc/default
+          /usr/bin/tanzu plugin install --group vmware-vsphere/default
 
       - name: Set context
         uses: azure/k8s-set-context@v1
