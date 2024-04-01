@@ -35,3 +35,7 @@ The Tanzu Mission Control Endpoint can be found in the URL when you access the T
 ```bash
 kubectl apply -f manifest.yaml
 ```
+
+## Notes
+
+I forked and modified Yoichi Kawasaki's awesome action-setup-kube-tools action (https://github.com/yokawasa/action-setup-kube-tools) to create a custom action to install the Tanzu CLI in the action.  Thank you Yoichi!
