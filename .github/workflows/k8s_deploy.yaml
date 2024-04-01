@@ -60,12 +60,7 @@ jobs:
           tilt version
           skaffold version
           kube-score version
-
-      - name: Remove existing Tanzu configuration
-        run: |
-          /usr/bin/sudo /usr/bin/rm -f ~/.config/tanzu
-        continue-on-error: true
-          
+         
       - name: Install Tanzu CLI
         run: |
           /usr/bin/wget --no-verbose ${{ env.TANZU_CLI_URL }}
@@ -79,6 +74,11 @@ jobs:
           /usr/bin/tanzu plugin install --group vmware-tanzucli/essentials
           /usr/bin/tanzu plugin install --group vmware-tmc/default
           /usr/bin/tanzu plugin install --group vmware-vsphere/default
+
+      - name: Remove Tanzu context, if exists 
+        continue-on-error: true
+        run: |
+          /usr/bin/tanzu context delete tmc --yes
 
       - name: Tanzu CLI login
         run: |
