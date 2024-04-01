@@ -25,13 +25,13 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: '1.25.12'
+          # version: '1.25.12'
+          version: 'latest'
 
       - name: Set context
         uses: azure/k8s-set-context@v1
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          enableCli: true
 
       - name: Deploy to Kubernetes
         uses: azure/k8s-deploy@v5
@@ -41,16 +41,3 @@ jobs:
           skip-tls-verify: true
           manifests: |
             manifest.yaml
- 
-      # - name: Setup Kube Tools
-      #   uses: yokawasa/action-setup-kube-tools@v0.11.0
-      #   with:
-      #     kubectl: '1.25.12'
-      #     # kustomize: '5.0.0'
-      #     # helm: '3.11.1'
-        
-      # - run: |
-      #     kubectl version --client
-      #     # kustomize version
-      #     # helm version
-
