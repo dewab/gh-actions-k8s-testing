@@ -60,6 +60,10 @@ jobs:
           tilt version
           skaffold version
           kube-score version
+
+      - name: Remove existing Tanzu configuration
+        run: |
+          /usr/bin/sudo /usr/bin/rm -f ~/.config/tanzu
           
       - name: Install Tanzu CLI
         run: |
