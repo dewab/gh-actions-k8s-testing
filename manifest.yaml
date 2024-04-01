@@ -1,0 +1,87 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello-node
+spec: {}
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hello-node
+  name: hello-node
+  namespace: hello-node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-node
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: hello-node
+    spec:
+      containers:
+      - command:
+        - /agnhost
+        - netexec
+        - --http-port=8080
+        image: registry.k8s.io/e2e-test-images/agnhost:2.39
+        name: agnhost
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hello-node
+  name: hello-node
+  namespace: hello-node
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: hello-node
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-node
+  namespace: "hello-node"
+  labels:
+    app.kubernetes.io/instance: hello-node
+    app.kubernetes.io/name: hello-node
+    app.kubernetes.io/component: hello-node
+  annotations:
+    cert-manager.io/certificate-name: hello-node.k3s.lab.local-tls
+    cert-manager.io/issuer: step-cluster-issuer
+    cert-manager.io/issuer-group: certmanager.step.sm
+    cert-manager.io/issuer-kind: StepClusterIssuer
+    external-dns.alpha.kubernetes.io/hostname: hello-node.k3s.lab.local
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hello-node
+                port: 
+                  number: 8080
+                #   port: 8080
+                #   protocol: TCP
+      host: hello-node.k3s.lab.local
+  tls:
+    - hosts:
+      - hello-node.k3s.lab.local
+      secretName: hello-node.k3s.lab.local-tls

@@ -7,3 +7,9 @@
 ## Goals
 
 Workspace to test using GitHub Actions to deploy Kubernetes resources.
+
+## Manually deploy
+
+```bash
+kubectl apply -f manifest.yaml
+```
