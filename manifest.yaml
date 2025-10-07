@@ -62,11 +62,11 @@ metadata:
     app.kubernetes.io/name: hello-node
     app.kubernetes.io/component: hello-node
   annotations:
-    cert-manager.io/certificate-name: hello-node.k3s.lab.local-tls
+    cert-manager.io/certificate-name: hello-node.tanzu.ccplano.lab-tls
     cert-manager.io/issuer: step-cluster-issuer
     cert-manager.io/issuer-group: certmanager.step.sm
     cert-manager.io/issuer-kind: StepClusterIssuer
-    external-dns.alpha.kubernetes.io/hostname: hello-node.k3s.lab.local
+    external-dns.alpha.kubernetes.io/hostname: hello-node.tanzu.ccplano.lab
 spec:
   rules:
     - http:
@@ -78,8 +78,8 @@ spec:
                 name: hello-node
                 port: 
                   number: 8080
-      host: hello-node.k3s.lab.local
+      host: hello-node.tanzu.ccplano.lab
   tls:
     - hosts:
-      - hello-node.k3s.lab.local
-      secretName: hello-node.k3s.lab.local-tls
+      - hello-node.tanzu.ccplano.lab
+      secretName: hello-node.tanzu.ccplano.lab-tls
