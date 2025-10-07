@@ -15,7 +15,7 @@ permissions:
 
 env:
   KUBECTL_VERSION: '1.25.12'
-  TANZU_CLI_VERSION: 'v1.2.0'
+  # TANZU_CLI_VERSION: 'v1.2.0'
   TANZU_TMC_ENDPOINT: ${{ secrets.TANZU_TMC_ENDPOINT }}
   TANZU_API_TOKEN: ${{ secrets.TANZU_API_TOKEN }}
   TANZU_CLI_CEIP_OPT_IN_PROMPT_ANSWER: 'no'
@@ -23,54 +23,34 @@ env:
 jobs:
   deploy:
     runs-on: [self-hosted, Linux, X64]
+    # runs-on: ubuntu-latest
     name: Deploy to Kubernetes
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Kubernetes Tools inc. Tanzu-CLI
-        uses: dewab/action-setup-kube-tools@v0.11.1
-        with:
-          kubectl: ${{ env.KUBECTL_VERSION }}
-          tanzu: ${{ env.TANZU_CLI_VERSION }}
-          # kustomize: '5.0.0'
-          # helm: '3.11.1'
+      - name: Setup kubectl
+        id: install-kubectl
+        uses: azure/setup-kubectl@v3      
 
       - name: Show K8s Tools Versions
         run: |
           kubectl version --client
-          kustomize version
-          helm version
-          tanzu version
+          kubectl cluster-info
+          kubectl get nodes
          
-      - name: Tanzu CLI setup
-        run: |
-          echo $PATH
-          tanzu config eula accept
-          tanzu init
-          tanzu plugin install --group vmware-tanzucli/essentials
-          tanzu plugin install --group vmware-tmc/default
-          tanzu plugin install --group vmware-vsphere/default
+      # - name: Set context
+      #   uses: azure/k8s-set-context@v4
+      #   with:
+      #     method: kubeconfig
+      #     kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      #     # context: ${{ secrets.KUBE_CONTEXT }}
 
-      - name: Remove Tanzu context, if exists 
-        continue-on-error: true
-        run: tanzu context delete tmc --yes
-
-      - name: Tanzu CLI login
-        run: tanzu context create --endpoint ${{ env.TANZU_TMC_ENDPOINT }} --type tmc tmc
-
-      - name: Set context
-        uses: azure/k8s-set-context@v4
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          # context: ${{ secrets.KUBE_CONTEXT }}
-
-      - name: Deploy to Kubernetes
-        uses: azure/k8s-deploy@v5
-        with:
-          action: deploy
-          namespace: hello-node
-          skip-tls-verify: true
-          manifests: |
-            manifest.yaml
+      # - name: Deploy to Kubernetes
+      #   uses: azure/k8s-deploy@v5
+      #   with:
+      #     action: deploy
+      #     namespace: hello-node
+      #     skip-tls-verify: true
+      #     manifests: |
+      #       manifest.yaml
