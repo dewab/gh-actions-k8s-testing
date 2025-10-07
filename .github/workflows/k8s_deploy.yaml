@@ -29,9 +29,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup kubectl
-        id: install-kubectl
-        uses: azure/setup-kubectl@v3      
+      # - name: Setup kubectl
+      #   id: install-kubectl
+      #   uses: azure/setup-kubectl@v3      
 
       - name: Show K8s Tools Versions
         run: |
